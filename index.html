@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vidu Salon</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional custom styles */
+    .typing {
+      display: inline-block;
+      border-right: 2px solid #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header Section -->
+  <header class="bg-purple-600 text-white text-center py-16">
+    <h1 class="text-4xl font-extrabold">Vidu Salon</h1>
+    <div class="typing text-xl mt-4">Where Beauty Meets Perfection...</div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="bg-purple-200 text-center py-4">
+    <ul class="flex justify-center space-x-8">
+      <li><a href="#services" class="text-lg font-semibold hover:text-purple-600">Our Services</a></li>
+      <li><a href="#booking" class="text-lg font-semibold hover:text-purple-600">Book Now</a></li>
+      <li><a href="#testimonials" class="text-lg font-semibold hover:text-purple-600">Testimonials</a></li>
+      <li><a href="#contact" class="text-lg font-semibold hover:text-purple-600">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Services Section -->
+  <section id="services" class="py-20 bg-gray-100 text-center">
+    <h2 class="text-3xl font-bold text-purple-600 mb-8">Our Premium Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-6">
+      <!-- Service 1 -->
+      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
+        <h3 class="text-xl font-semibold mb-4">Hair Styling</h3>
+        <p>Expert haircuts and styling to give you that perfect look for any occasion.</p>
+      </div>
+      <!-- Service 2 -->
+      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
+        <h3 class="text-xl font-semibold mb-4">Facial Treatments</h3>
+        <p>Relaxing facials to rejuvenate your skin and give you a radiant glow.</p>
+      </div>
+      <!-- Service 3 -->
+      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
+        <h3 class="text-xl font-semibold mb-4">Manicure & Pedicure</h3>
+        <p>Luxury manicure and pedicure services to pamper your hands and feet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section id="booking" class="py-20 bg-purple-600 text-white text-center">
+    <h2 class="text-3xl font-bold mb-8">Book Your Appointment</h2>
+    <p class="mb-4">Schedule your appointment today and experience beauty at its finest.</p>
+    <a href="https://www.google.com" target="_blank" class="px-8 py-4 bg-purple-800 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition">
+      Book Now
+    </a>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-20 bg-gray-200 text-center">
+    <h2 class="text-3xl font-bold text-purple-600 mb-8">What Our Clients Say</h2>
+    <div class="max-w-4xl mx-auto">
+      <div class="flex space-x-8 justify-center">
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-lg mb-4">"The best salon experience I've ever had! The staff is amazing and the services are top-notch!"</p>
+          <h4 class="font-semibold text-purple-600">Jessica H.</h4>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-lg mb-4">"I absolutely love the manicure and pedicure services. My hands and feet have never looked better!"</p>
+          <h4 class="font-semibold text-purple-600">Sarah W.</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gray-100 text-center">
+    <h2 class="text-3xl font-bold text-purple-600 mb-8">Contact Us</h2>
+    <p class="text-lg mb-8">Have any questions? We are here to assist you!</p>
+    <a href="mailto:contact@vidusalon.com" class="px-8 py-4 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition">
+      Email Us
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-purple-600 text-white text-center py-4">
+    <p class="text-lg">&copy; 2025 Vidu Salon | All Rights Reserved</p>
+  </footer>
+
+  <!-- Tailwind CSS CDN Script (for responsive design) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>
