@@ -1,118 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vidu Salon</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Additional custom styles */
-    .typing {
-      display: inline-block;
-      border-right: 2px solid #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 0;
-      animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechLaptop Hub - Premium Laptops</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, rgba(93,95,239,0.4) 0%, rgba(93,95,239,0.2) 50%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.3s ease, background 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
 
-    @keyframes typing {
-      to {
-        width: 100%;
-      }
-    }
+        .gradient-text {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 5s ease infinite;
+        }
 
-    @keyframes blink {
-      50% {
-        border-color: transparent;
-      }
-    }
-  </style>
+        .cart-sidebar {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .cart-open .cart-sidebar {
+            transform: translateX(0);
+        }
+
+        .cart-badge {
+            top: -8px;
+            right: -8px;
+        }
+
+        .payment-method {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .payment-method.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-900 text-gray-100 cursor-none">
+    <div class="custom-cursor"></div>
 
-  <!-- Header Section -->
-  <header class="bg-purple-600 text-white text-center py-16">
-    <h1 class="text-4xl font-extrabold">Vidu Salon</h1>
-    <div class="typing text-xl mt-4">Where Beauty Meets Perfection...</div>
-  </header>
-
-  <!-- Navigation -->
-  <nav class="bg-purple-200 text-center py-4">
-    <ul class="flex justify-center space-x-8">
-      <li><a href="#services" class="text-lg font-semibold hover:text-purple-600">Our Services</a></li>
-      <li><a href="#booking" class="text-lg font-semibold hover:text-purple-600">Book Now</a></li>
-      <li><a href="#testimonials" class="text-lg font-semibold hover:text-purple-600">Testimonials</a></li>
-      <li><a href="#contact" class="text-lg font-semibold hover:text-purple-600">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- Services Section -->
-  <section id="services" class="py-20 bg-gray-100 text-center">
-    <h2 class="text-3xl font-bold text-purple-600 mb-8">Our Premium Services</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-6">
-      <!-- Service 1 -->
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-        <h3 class="text-xl font-semibold mb-4">Hair Styling</h3>
-        <p>Expert haircuts and styling to give you that perfect look for any occasion.</p>
-      </div>
-      <!-- Service 2 -->
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-        <h3 class="text-xl font-semibold mb-4">Facial Treatments</h3>
-        <p>Relaxing facials to rejuvenate your skin and give you a radiant glow.</p>
-      </div>
-      <!-- Service 3 -->
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-        <h3 class="text-xl font-semibold mb-4">Manicure & Pedicure</h3>
-        <p>Luxury manicure and pedicure services to pamper your hands and feet.</p>
-      </div>
+    <!-- Cart Icon -->
+    <div class="fixed right-6 top-6 z-50">
+        <button onclick="toggleCart()" class="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-all relative">
+            🛒
+            <span id="cartCount" class="cart-badge absolute bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+        </button>
     </div>
-  </section>
 
-  <!-- Booking Section -->
-  <section id="booking" class="py-20 bg-purple-600 text-white text-center">
-    <h2 class="text-3xl font-bold mb-8">Book Your Appointment</h2>
-    <p class="mb-4">Schedule your appointment today and experience beauty at its finest.</p>
-    <a href="https://www.google.com" target="_blank" class="px-8 py-4 bg-purple-800 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition">
-      Book Now
-    </a>
-  </section>
+    <!-- Cart & Payment Sidebar -->
+    <div class="cart-sidebar fixed top-0 right-0 h-full w-96 bg-gray-800/90 backdrop-blur-lg z-40 p-6 border-l border-gray-700">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold">Checkout</h2>
+            <button onclick="toggleCart()" class="p-2 hover:bg-gray-700 rounded-full">✕</button>
+        </div>
+        
+        <div class="h-[75vh] overflow-y-auto space-y-6">
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Your Items</h3>
+                <div id="cartItems" class="space-y-4"></div>
+            </div>
 
-  <!-- Testimonials Section -->
-  <section id="testimonials" class="py-20 bg-gray-200 text-center">
-    <h2 class="text-3xl font-bold text-purple-600 mb-8">What Our Clients Say</h2>
-    <div class="max-w-4xl mx-auto">
-      <div class="flex space-x-8 justify-center">
-        <!-- Testimonial 1 -->
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-          <p class="text-lg mb-4">"The best salon experience I've ever had! The staff is amazing and the services are top-notch!"</p>
-          <h4 class="font-semibold text-purple-600">Jessica H.</h4>
+            <div class="pt-6 border-t border-gray-700">
+                <h3 class="text-lg font-semibold mb-6">Payment Details</h3>
+                
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="payment-method p-4 rounded-xl cursor-pointer" onclick="selectPayment('credit')">
+                        <div class="text-2xl mb-2">💳</div>
+                        <span class="font-medium">Credit Card</span>
+                    </div>
+                    <div class="payment-method p-4 rounded-xl cursor-pointer" onclick="selectPayment('paypal')">
+                        <div class="text-2xl mb-2">🇵</div>
+                        <span class="font-medium">PayPal</span>
+                    </div>
+                </div>
+
+                <div id="creditCardForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Card Number</label>
+                        <input type="text" placeholder="4242 4242 4242 4242" 
+                               class="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Expiration</label>
+                            <input type="text" placeholder="MM/YY" 
+                                   class="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">CVV</label>
+                            <input type="text" placeholder="123" 
+                                   class="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Billing Address</label>
+                        <textarea rows="3" placeholder="Enter billing address"
+                                  class="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all"></textarea>
+                    </div>
+                </div>
+
+                <div id="paypalForm" class="hidden">
+                    <div class="text-center py-8">
+                        <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg transition-all">
+                            Continue with PayPal
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Testimonial 2 -->
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-          <p class="text-lg mb-4">"I absolutely love the manicure and pedicure services. My hands and feet have never looked better!"</p>
-          <h4 class="font-semibold text-purple-600">Sarah W.</h4>
+
+        <div class="absolute bottom-0 left-0 w-full p-6 bg-gray-800/80 backdrop-blur-lg">
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-semibold">Total:</span>
+                <span id="cartTotal" class="text-xl font-bold gradient-text">$0.00</span>
+            </div>
+            <button onclick="processPayment()" 
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg transition-all">
+                Complete Purchase
+            </button>
         </div>
-      </div>
     </div>
-  </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gray-100 text-center">
-    <h2 class="text-3xl font-bold text-purple-600 mb-8">Contact Us</h2>
-    <p class="text-lg mb-8">Have any questions? We are here to assist you!</p>
-    <a href="mailto:contact@vidusalon.com" class="px-8 py-4 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition">
-      Email Us
-    </a>
-  </section>
+    <!-- Header -->
+<header class="fixed w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-3xl font-bold gradient-text">TechLaptop Hub</div>
+        <div class="flex items-center gap-8">
+            <a href="#products" class="hover:text-indigo-400 transition-all duration-300 hover:scale-110">Laptops</a>
+            <a href="#features" class="hover:text-indigo-400 transition-all duration-300 hover:scale-110">Accessories</a>
+            <a href="#support" class="hover:text-indigo-400 transition-all duration-300 hover:scale-110">Support</a>
+            <button onclick="toggleCart()" class="relative p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-all">
+                🛒
+                <span id="cartCount" class="cart-badge absolute bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </nav>
+</header>
+    <!-- Hero Section -->
+    <section class="min-h-screen pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-6xl font-bold mb-8 gradient-text">Premium Laptops Collection</h1>
+            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Experience peak performance with our cutting-edge laptops</p>
+            <div class="relative group">
+                <div class="absolute inset-0 bg-indigo-500/30 blur-3xl group-hover:blur-4xl transition-all duration-500"></div>
+                <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6" alt="Laptop Collection" class="rounded-2xl shadow-2xl shadow-indigo-500/20 transform group-hover:scale-[1.01] transition-all duration-500 h-96 w-full object-cover">
+            </div>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="bg-purple-600 text-white text-center py-4">
-    <p class="text-lg">&copy; 2025 Vidu Salon | All Rights Reserved</p>
-  </footer>
+    <!-- Products Section -->
+    <section class="py-20 px-6" id="products">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Laptop 1 -->
+            <div class="product-card bg-gray-800/50 p-8 rounded-3xl backdrop-blur-lg border border-gray-700/50 hover:border-indigo-500/30 transition-all duration-500">
+                <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed" alt="Gaming Laptop" class="product-image rounded-xl mb-6 h-64 w-full object-cover hover:scale-105 transition-transform">
+                <h3 class="text-2xl font-bold mb-4">QuantumStrike Pro</h3>
+                <p class="text-gray-400 mb-6">RTX 4080 | i9-13900H | 32GB DDR5 | 2TB SSD</p>
+                <div class="flex gap-4">
+                    <button onclick="addToCart(1, 'QuantumStrike Pro', 2999)" class="flex-1 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg transition-all">Add to Cart</button>
+                    <button onclick="buyNow(1, 'QuantumStrike Pro', 2999)" class="flex-1 bg-purple-600 hover:bg-purple-700 py-3 rounded-lg transition-all">Buy Now</button>
+                </div>
+            </div>
 
-  <!-- Tailwind CSS CDN Script (for responsive design) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+            <!-- Laptop 2 -->
+            <div class="product-card bg-gray-800/50 p-8 rounded-3xl backdrop-blur-lg border border-gray-700/50 hover:border-indigo-500/30 transition-all duration-500">
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6" alt="Ultrabook" class="product-image rounded-xl mb-6 h-64 w-full object-cover hover:scale-105 transition-transform">
+                <h3 class="text-2xl font-bold mb-4">SkyBook Air</h3>
+                <p class="text-gray-400 mb-6">M2 Chip | 16GB RAM | 1TB SSD | 4K Display</p>
+                <div class="flex gap-4">
+                    <button onclick="addToCart(2, 'SkyBook Air', 1999)" class="flex-1 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg transition-all">Add to Cart</button>
+                    <button onclick="buyNow(2, 'SkyBook Air', 1999)" class="flex-1 bg-purple-600 hover:bg-purple-700 py-3 rounded-lg transition-all">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Laptop 3 -->
+            <div class="product-card bg-gray-800/50 p-8 rounded-3xl backdrop-blur-lg border border-gray-700/50 hover:border-indigo-500/30 transition-all duration-500">
+                <img src="https://images.unsplash.com/photo-1588702547923-7093a6c3ba33" alt="Business Laptop" class="product-image rounded-xl mb-6 h-64 w-full object-cover hover:scale-105 transition-transform">
+                <h3 class="text-2xl font-bold mb-4">EliteBook Pro</h3>
+                <p class="text-gray-400 mb-6">i7-1280P | 64GB RAM | 4TB SSD | Touchscreen</p>
+                <div class="flex gap-4">
+                    <button onclick="addToCart(3, 'EliteBook Pro', 3499)" class="flex-1 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg transition-all">Add to Cart</button>
+                    <button onclick="buyNow(3, 'EliteBook Pro', 3499)" class="flex-1 bg-purple-600 hover:bg-purple-700 py-3 rounded-lg transition-all">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let cart = [];
+        let selectedPayment = 'credit';
+
+        // Cart Functions
+        function toggleCart() {
+            document.body.classList.toggle('cart-open');
+        }
+
+        function addToCart(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            existingItem ? existingItem.quantity++ : cart.push({ id, name, price, quantity: 1 });
+            updateCartDisplay();
+        }
+
+        function buyNow(id, name, price) {
+            addToCart(id, name, price);
+            toggleCart();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center bg-gray-700/50 p-4 rounded-xl">
+                    <div>
+                        <h4 class="font-semibold">${item.name}</h4>
+                        <p class="text-sm text-gray-400">$${item.price} x ${item.quantity}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateQuantity(${item.id}, -1)" class="px-2 hover:bg-gray-600 rounded">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" class="px-2 hover:bg-gray-600 rounded">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartTotal.textContent = `$${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`;
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+                updateCartDisplay();
+            }
+        }
+
+        function selectPayment(method) {
+            selectedPayment = method;
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[onclick="selectPayment('${method}')"]`).classList.add('active');
+            document.getElementById('creditCardForm').classList.toggle('hidden', method !== 'credit');
+            document.getElementById('paypalForm').classList.toggle('hidden', method !== 'paypal');
+        }
+
+        async function processPayment() {
+            const inputs = document.querySelectorAll('#creditCardForm input, #creditCardForm textarea');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
+
+            if (!isValid) return alert('Please fill all required fields');
+
+            const loader = document.createElement('div');
+            loader.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+            loader.innerHTML = `
+                <div class="bg-gray-800 p-8 rounded-2xl text-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+                    <p>Processing Payment...</p>
+                </div>
+            `;
+            document.body.appendChild(loader);
+
+            setTimeout(() => {
+                loader.remove();
+                showPaymentSuccess();
+                cart = [];
+                updateCartDisplay();
+                toggleCart();
+            }, 2000);
+        }
+
+        function showPaymentSuccess() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-gray-800 p-8 rounded-2xl text-center max-w-md">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h2 class="text-2xl font-bold mb-4">Payment Successful!</h2>
+                    <p class="text-gray-400 mb-6">Thank you for your purchase.</p>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg transition-all">
+                        Continue Shopping
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Custom Cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+        });
+
+        document.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+                cursor.style.background = 'radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(99,102,241,0.2) 50%, transparent 100%)';
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.background = 'radial-gradient(circle, rgba(93,95,239,0.4) 0%, rgba(93,95,239,0.2) 50%, transparent 100%)';
+            });
+        });
+    </script>
 </body>
 </html>
